@@ -6,7 +6,7 @@ import app from '../src/app';
 
 const inst = app.listen(4000);
 
-describe('Test sampe authorization header',  () => {
+describe('Test sample authorization header',  () => {
   it('should be "401"', async () => {
     const res = await request(inst)
     .get('/pets')

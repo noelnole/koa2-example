@@ -24,7 +24,7 @@ const validateKey = async (ctx, next) => {
 api.get('/pets',async (ctx, next) => {
   console.log("Entra en pets");
   ctx.body = 'hola';
-//  ctx.redirect('/pets/tobi');
+
   var names = Object.keys(db);
   ctx.body = 'pets: ' + names.join(', ');
 });
@@ -32,6 +32,7 @@ api.get('/pets',async (ctx, next) => {
 api.get('/pets/:name',  async (ctx, next) => {
   console.log("Entra en pets show");
   console.log("Parametros ",ctx.params.name);
+  ctx.redirect('/pets');
   var pet = db[ctx.params.name];
   if (!pet)
     return this.throw('cannot find that pet', 404);

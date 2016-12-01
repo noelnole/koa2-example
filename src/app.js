@@ -9,20 +9,24 @@ var app = new koa();
 const bearertoken = async (ctx, next) => {
   var token;
   const bearer =  'bearer';
-  const { authorization } = ctx.request.headers;
+  const authorization = ctx.request.headers.authorization;
   const  headers  = ctx.request.headers;
-  console.log(authorization);
-  if (headers && authorization) {
-    var parts = authorization.split(' ');
-    if (parts.length === 2 && parts[0] === bearer) {
-      token = parts[1];
-      ctx.set(authorization);
-      await next();
+  if (ctx == null || ctx === 0 || Object.keys(ctx).length === 0){
+    return ctx.throw("JWT token is bad formatted",401);
+  }else {
+    const authorization  = ctx.request.headers.authorization;
+    if (authorization) {
+      var parts = authorization.split(' ');
+      if (parts.length === 2 && parts[0] === bearer) {
+        token = parts[1];
+        ctx.state.authorizationHeader = authorization;
+        await next();
+      }else{
+        return ctx.throw("JWT token is bad formatted",401);
+      }
     }else{
-      return ctx.throw("JWT token is bad formatted",401);
+      return ctx.throw("JWT token is mandatory",401);
     }
-  }else{
-    return ctx.throw("JWT token is mandatory",401);
   }
 }
 
