@@ -1,3 +1,5 @@
+//Simple sample to understand koa2 await
+
 var koa = require('koa');
 var app = new koa();
 
